@@ -1,8 +1,14 @@
 import React from 'react'
+import Navbar from './components/Navbar'
+import {useLocation} from 'react-router-dom'
 
 function App() {
+   // If we navigate to the owner, the navbar will not appear. 
+   const isOwnerPath = useLocation().pathname.includes('owner')
   return (
-    <div className='text-3xl text-red-500 font-bold'>App</div>
+    <div className=''>
+     { !isOwnerPath && <Navbar /> }
+    </div>
   )
 }
 
