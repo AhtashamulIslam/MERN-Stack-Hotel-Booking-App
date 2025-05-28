@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import {Routes,Route, useLocation} from 'react-router-dom'
 import Home from './pages/Home'
+import Footer from './components/Footer'
 
 function App() {
    // If we navigate to the owner, the navbar will not appear. 
@@ -19,6 +20,7 @@ function App() {
           {/* Add more routes as needed */}
        </Routes>
      </div>
+     <Footer />
     </div>
   )
 }
