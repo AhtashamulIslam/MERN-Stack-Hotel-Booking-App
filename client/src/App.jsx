@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Footer from './components/Footer'
 import AllRooms from './pages/AllRooms'
 import RoomDetails from './pages/RoomDetails'
+import MyBookings from './pages/MyBookings'
 
 function App() {
    // If we navigate to the owner, the navbar will not appear. 
@@ -17,6 +18,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/rooms' element={<AllRooms />} />
           <Route path='/rooms/:id' element={<RoomDetails />} />
+          <Route path='/my-bookings' element={<MyBookings />} />
           <Route path='/owner' element={<h1>Owner Dashboard</h1>} />
           {/* Add more routes as needed */}
        </Routes>
