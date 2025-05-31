@@ -33,7 +33,7 @@ function App() {
           {/* Add more routes as needed */}
        </Routes>
      </div>
-     <Footer />
+    { !isOwnerPath && <Footer /> }
     </div>
   )
 }
