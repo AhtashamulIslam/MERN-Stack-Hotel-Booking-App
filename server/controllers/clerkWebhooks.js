@@ -32,17 +32,17 @@ const clerkWebhooks = async (req,res)=>{
         switch (type) {
             case 'user.created':{
                 await User.create(userData) // We pass the user data from clerk. 
-                break
+                break;
             }
 
              case 'user.updated':{
                 await User.findByIdAndUpdate(data.id,userData)
-                break
+                break;
             }
 
              case 'user.deleted':{
                 await User.findByIdAndDelete(data.id)  
-                break
+                break;
             }
                  
             default:
