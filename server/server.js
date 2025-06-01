@@ -3,6 +3,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import  connectDB  from './configs/db.js';
 import { clerkMiddleware } from '@clerk/express'
+import clerkWebhooks from './controllers/clerkWebhooks.js';
 
 connectDB(); // Connect to the database.
 
@@ -13,6 +14,9 @@ app.use(cors()); // Enable cross-origin resource sharing.
 //Middleware to use express JSON to convert it as json and Clerk authentication.
 app.use(express.json()); // Parse incoming JSON requests.
 app.use(clerkMiddleware());
+
+// API to listen to clerkWebhook to manage USER.
+app.use('/api/clerk',clerkWebhooks)
 
 app.get('/', (req, res) => {
   res.send('API is working fine'); // Respond with a simple message.
