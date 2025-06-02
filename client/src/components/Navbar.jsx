@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect,useState} from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { useClerk, useUser,UserButton } from "@clerk/clerk-react";
+
 
 const BookIcon = ()=>(
     <svg className="w-4 h-4 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
@@ -25,8 +25,6 @@ const Navbar = () => {
 
     // We use clerk component to sign in functionality. 
 
-    const {openSignIn} = useClerk(); // A built in function from Clerk to open the sign-in modal.
-    const {user} = useUser(); // To check if a user is logged in or not. 
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -70,7 +68,7 @@ const Navbar = () => {
                             <div className={`${isScrolled ? "bg-gray-700" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`} />
                         </a>
                     ))}
-                    <button 
+                    <button
                      onClick={() => {
                         navigate('/owner');
                     }}
@@ -84,40 +82,19 @@ const Navbar = () => {
                    <img src={assets.searchIcon} alt="Search" 
                    className={`${isScrolled && 'invert'} h-7 transition-all duration-500`} />
 
-                   { user ? 
-                   (<UserButton>
-                    <UserButton.MenuItems>
-                        <UserButton.Action 
-                        label="My Bookings" 
-                        labelIcon={<BookIcon />}
-                        onClick={()=>navigate('/my-bookings')}
-                        />
-                    </UserButton.MenuItems>
-                   </UserButton>) 
-                   : 
-                   (
-                    <button 
-                    onClick={openSignIn}
+                  
+                    <button
                     className="bg-black text-white px-8 py-2.5 rounded-full 
                     ml-4 transition-all duration-500">
                         Login
                     </button>
-                   )}
+                
                     
                 </div>
 
                 {/* Mobile Menu Button */}
                 
                 <div className="flex items-center gap-3 md:hidden">
-                    { user && <UserButton>
-                    <UserButton.MenuItems>
-                        <UserButton.Action 
-                        label="My Bookings" 
-                        labelIcon={<BookIcon />}
-                        onClick={()=>navigate('/my-bookings')}
-                        />
-                    </UserButton.MenuItems>
-                   </UserButton>}
                    <img src={assets.menuIcon} alt="menu_icon" 
                    onClick={() => setIsMenuOpen(!isMenuOpen)}
                    className={`${isScrolled && 'invert'} h-4`} />
@@ -134,23 +111,22 @@ const Navbar = () => {
                             {link.name}
                         </a>
                     ))}
-                 { user && 
-                   <button 
+                 
+                   {/* <button 
                    onClick={() => {
                         navigate('/owner');
                     }}
                    className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
                         Dashboard
-                    </button>
-                 }
+                    </button> */}
+                
                     
 
-                { !user && <button 
-                    onClick={openSignIn}
+                <button 
                     className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
                         Login
                     </button>
-            }
+            
                 </div>
             </nav>
         
