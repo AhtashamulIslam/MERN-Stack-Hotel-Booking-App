@@ -7,7 +7,7 @@ function NewsLetter() {
    <div className="flex flex-col items-center max-w-5xl lg:w-full rounded-2xl 
                    px-4 py-12 md:py-16 mx-2 lg:mx-auto my-30 bg-gray-900 text-white">
             
-            <Title title='Stay Inspired' 
+            <Title title='Stay Inspired'
             subTitle='Join our newsletter for exclusive offers, travel tips,
              and the latest updates from our hotel.'
             />

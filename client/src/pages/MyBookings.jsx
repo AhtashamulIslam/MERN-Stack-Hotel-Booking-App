@@ -6,7 +6,7 @@ function MyBookings() {
 
     const [bookings, setBookings] = useState(userBookingsDummyData)
   return (
-    <div className='py-28 md:pb-35 md:pt-32 px-4 md:px-16 lg:px-24 xl:px-32'>
+    <div>
         <Title title="My Bookings" subTitle='easily manage your past, current and upcoming hotel reservations
           in one place. Plan your trips seamlessly with our user-friendly interface.'
           align="left" />
@@ -23,7 +23,7 @@ function MyBookings() {
             <div key={booking._id} 
             className='grid grid-cols-1 md:grid-cols-[3fr_2fr_1fr] w-full border-b border-gray-300 py-6 first:border-t'>
               {/*Hotel details*/}
-              <div className='flex flex-col md:flex-row'>
+              <div className='flex flex-col md:flex-row flex-wrap'>
                 <img src={booking.room.images[0]} alt='hotel_image'
                   className='min-md:w-44 rounded shadow object-cover'/>
                   <div className='flex flex-col gap-1.5 max-md:mt-3 min-md:ml-4'>

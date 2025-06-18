@@ -56,6 +56,7 @@ function Footer() {
                         <button className='flex items-center justify-center bg-black h-9 w-9 aspect-square rounded-r'>
                            <img src={assets.arrowIcon} alt="arrow_icon" className='w-4 invert' />
                         </button>
+                      
                     </div>
                 </div>
             </div>

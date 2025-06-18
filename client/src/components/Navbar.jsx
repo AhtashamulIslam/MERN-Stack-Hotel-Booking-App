@@ -2,6 +2,12 @@ import React from "react";
 import { useEffect,useState} from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
+import { useSelector,useDispatch } from "react-redux";
+import { signOutSuccess } from "../redux/user/userSlice";
+import Avatar from '@mui/material/Avatar';
+import { AiOutlineSearch, AiFillProfile, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineLogout } from "react-icons/ai";
+import { FaMoon,FaSun } from "react-icons/fa";
+import { toggleTheme } from "../redux/theme/themeSlice";
 
 
 const BookIcon = ()=>(
@@ -9,6 +15,7 @@ const BookIcon = ()=>(
     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4" />
 </svg>
 )
+
 
 
 const Navbar = () => {
@@ -22,6 +29,10 @@ const Navbar = () => {
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const {currentUser}=useSelector(state=>state.user)
+    const {theme}=useSelector(state=>state.theme)
+    const [openDropdown, setOpenDropdown] = useState(false);
+    const dispatch = useDispatch();
 
     // We use clerk component to sign in functionality. 
 
@@ -48,6 +59,23 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [location.pathname]);
 
+    const handleSignOut=async ()=>{
+      try {
+        const res =await fetch(`/api/user/signout`,{
+          method:'POST'
+        })
+        const data = await res.json()
+        if(!res.ok){
+          console.log(data.message)
+        }else{
+          dispatch(signOutSuccess())
+          setOpenDropdown(false)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     return (
 
             <nav className={`fixed top-0 left-0 w-full flex items-center 
@@ -68,6 +96,7 @@ const Navbar = () => {
                             <div className={`${isScrolled ? "bg-gray-700" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`} />
                         </a>
                     ))}
+                   {currentUser && currentUser.isHotelOwner &&
                     <button
                      onClick={() => {
                         navigate('/owner');
@@ -75,29 +104,99 @@ const Navbar = () => {
                     className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${isScrolled ? 'text-black' : 'text-white'} transition-all`}>
                         Dashboard
                     </button>
+                   }
+
+                    {currentUser && !currentUser.isHotelOwner &&
+                    <button
+                     onClick={() => {
+                        navigate('/profile');
+                    }}
+                    className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${isScrolled ? 'text-black' : 'text-white'} transition-all`}>
+                        Dashboard
+                    </button>
+                   }
+                   
                 </div>
 
                 {/* Desktop Right */}
                 <div className="hidden md:flex items-center gap-4">
                    <img src={assets.searchIcon} alt="Search" 
                    className={`${isScrolled && 'invert'} h-7 transition-all duration-500`} />
-
-                  
+                    <button className='w-12 h-10 text-center sm:inline md:ml-3' 
+                     onClick={()=>dispatch(toggleTheme())}
+                      >
+                        {theme==='light' ? <FaMoon /> : <FaSun /> }
+                    </button>
+                 { currentUser ? (
+                    
+                    
+                      <Avatar alt="Remy Sharp" 
+                        src={currentUser.profilePicture}
+                        onClick={()=>setOpenDropdown(!openDropdown)}
+                        />
+                 )
+                 : 
+                 (
+                     <Link to='/signin'>
                     <button
                     className="bg-black text-white px-8 py-2.5 rounded-full 
                     ml-4 transition-all duration-500">
-                        Login
+                        Sign in
                     </button>
-                
-                    
-                </div>
-
+                    </Link>
+                 )
+                }  
+                  
+                 </div>
+               
+                { /*Drop dpwn menu */}
+            { openDropdown && currentUser &&
+                 <div className="drop-menu-wrap bg-gray-200 rounded-lg">
+                    <div className="drop-menu-item p-5 m-2.5">
+                        <div className="user-info flex items-center">
+                            <Avatar src={currentUser.profilePicture} className="w-10 h-10 rounded-full mr-3" alt="profile picture" />
+                            <h2 className="font-bold overflow-hidden">{currentUser.username}</h2>
+                        </div>
+                        <hr className="border-none bg-gray-400 mt-1.5"></hr>
+                        <div className="flex flex-col gap-4 mt-5">
+                       <Link to={currentUser.isHotelOwner ? '/owner/profile' : '/profile'} 
+                       onClick={()=>setOpenDropdown(false)}>
+                        <div className="flex items-center gap-2 justify-baseline hover:bg-gray-300 px-3 py-2 rounded-lg">
+                            <span><AiFillProfile className="h-9 w-9 p-1 bg-gray-300 rounded-full"/></span>
+                            <p>Manage Account</p>
+                            <span><AiOutlineArrowRight /></span>
+                        </div>
+                        </Link>
+                        <div className="flex items-center gap-2 justify-baseline
+                         hover:bg-gray-300 px-3 py-2 rounded-lg cursor-pointer"
+                           onClick={handleSignOut}
+                           >
+                            <span><AiOutlineLogout className="h-9 w-9 p-1 bg-gray-300 rounded-full" /></span>
+                            <p>Sign Out</p>
+                            <span><AiOutlineArrowRight /></span>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                 }
                 {/* Mobile Menu Button */}
                 
-                <div className="flex items-center gap-3 md:hidden">
+                <div className="flex items-center gap-4 md:hidden">
+                    <button className='w-12 h-10 text-center sm:inline ml-3' 
+                     onClick={()=>dispatch(toggleTheme())}
+                      >
+                        {theme==='light' ? <FaMoon /> : <FaSun /> }
+                    </button>
+                   {
+                      currentUser && <Avatar alt="Remy Sharp" 
+                      src={currentUser.profilePicture} 
+                      onClick={()=>setOpenDropdown(!openDropdown)}
+                      />
+                   }
                    <img src={assets.menuIcon} alt="menu_icon" 
                    onClick={() => setIsMenuOpen(!isMenuOpen)}
                    className={`${isScrolled && 'invert'} h-4`} />
+                  
                 </div>
 
                 {/* Mobile Menu */}
@@ -112,20 +211,24 @@ const Navbar = () => {
                         </a>
                     ))}
                  
-                   {/* <button 
+                { currentUser &&
+                   <button 
                    onClick={() => {
                         navigate('/owner');
                     }}
                    className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
                         Dashboard
-                    </button> */}
-                
-                    
-
-                <button 
-                    className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
-                        Login
                     </button>
+                 }
+
+                    
+               { !currentUser &&
+                  <button 
+                    className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
+                        Sign in
+                </button>
+               }
+               
             
                 </div>
             </nav>

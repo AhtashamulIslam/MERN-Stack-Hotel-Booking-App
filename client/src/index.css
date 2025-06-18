@@ -2,6 +2,7 @@
 url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&display=swap');
 
 @import "tailwindcss";
+@plugin "flyonui";
 
 @theme {
    --color-primary: #2563EB;
@@ -15,4 +16,15 @@ url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Playfa
 /* We will override the existing html font family by applying this.*/
 .font-playfair{
     font-family: Playfair !important;
+}
+
+.drop-menu-wrap {
+   position: absolute;
+   top:105%;
+   right: 9%;
+   width: auto;
+}
+
+.drop-menu-item hr{
+   height: 1px;
 }

@@ -1,15 +1,14 @@
 import React from 'react'
-import Navbar from '../../components/hotelOwner/Navbar'
 import Sidebar from '../../components/hotelOwner/Sidebar'
 import { Outlet } from 'react-router-dom'
 
 function Layout() {
   return (
-    <div className='flex flex-col h-screen'>
-      <Navbar />
-      <div className='flex h-full'>
+    <div className='flex flex-col min-h-screen mt-18'>
+      
+      <div className='flex h-full max-sm:flex-col bg-white'>
         <Sidebar />
-        <div className='flex-1 p-4 pt-10 md:px-10 h-full'>
+        <div className='md:flex-1 h-full md:pb-3 px-4 mt-8 md:px-16 lg:px-10'>
           <Outlet />
         </div>
       </div>
