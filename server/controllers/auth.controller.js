@@ -10,6 +10,10 @@ export const signup = async (req,res,next)=>{
      if( !username || !email || !password || username==='' || email==='' || password==='' )
         next(errorHandler(400,'All Fields are Required'))
     //Here next will be invoked by custom error handler function.
+     const user=await User.findOne({email}) 
+     if(user){
+       return next(errorHandler(400,'This email is already used for different account'))
+     }
      const hashedPassword = bcryptjs.hashSync(password,10)
     
      const newUser = new User({
@@ -17,6 +21,7 @@ export const signup = async (req,res,next)=>{
         email,
         password:hashedPassword
     })
+
     try {
    await newUser.save()
    

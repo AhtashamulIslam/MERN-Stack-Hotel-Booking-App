@@ -4,7 +4,7 @@ import User from '../models/User.js'
 
 export const getUser = async (req,res,next)=>{
    
-      if(!req.user.isHotelOwner){
+      if(req.user.id !== req.params.userId){
          return(errorHandler(403,'You are not allowed to get user data'))
       }
      try {
@@ -12,8 +12,8 @@ export const getUser = async (req,res,next)=>{
        if(!user){
           return next(errorHandler(403,'user not found'))
        }
-       const { password, ...rest} = user._doc;
-       res.status(200).json(rest);
+       
+       res.json(user);
      } catch (error) {
         next(error)
      }

@@ -6,7 +6,6 @@ import Footer from './components/Footer'
 import AllRooms from './pages/AllRooms'
 import RoomDetails from './pages/RoomDetails'
 import MyBookings from './pages/MyBookings'
-import HotelRegistration from './components/HotelRegistration'
 import Layout from './pages/hotelOwner/Layout'
 import Dashboard from './pages/hotelOwner/Dashboard'
 import AddRoom from './pages/hotelOwner/AddRoom'
@@ -15,9 +14,9 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import ScrollToTop from './components/ScrollToTop'
 import PrivateRoute from './components/PrivateRoute'
-import UserDashboard from './pages/UserDashboard'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import DashProfile from './components/DashProfile'
+
 
 function App() {
    // If we navigate to the owner, the navbar will not appear. 
@@ -25,7 +24,6 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Navbar /> 
-     {false && <HotelRegistration />}
        <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/signin' element={<SignIn />}/>

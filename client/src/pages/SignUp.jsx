@@ -29,9 +29,10 @@ function SignUp() {
         })
         const data = await res.json()
         //Contains the response status like success and message
-        if(data.success===false)
-          return setErrorMessage(data.message)
-        setLoading(false)
+        if(data.success===false){
+          setErrorMessage(data.message)
+          setLoading(false)
+        }
         if(res.ok)
           navigate('/signin')
     }catch(error){
