@@ -1,0 +1,105 @@
+import React, { useEffect, useState } from 'react'
+import Title from '../../components/Title'
+import { useSelector } from 'react-redux'
+import Alert from '@mui/material/Alert'
+// Importing axios for making API requests
+
+function ListRoom() {
+
+  // This component will list all the rooms for a hotel owner
+   const [rooms, setRooms] = useState([])
+   const {currentUser} = useSelector((state) => state.user)
+   // Fetching all rooms when the component mounts
+
+        const fetchRooms = async () => {
+          
+               const res = await fetch(`/api/room/get-rooms/${currentUser._id}`)
+               const data = await res.json()
+               setRooms(data)
+       }
+     
+   const handleToggleAvailability = async (roomId) => {
+      
+        try {
+          const res = await fetch(`/api/room/toggle-room-availability/${roomId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const data = await res.json();
+          if(data.success === false){
+            console.log(data.message);
+          }
+          if(res.ok) {
+            // If the request was successful, refetch the rooms
+            fetchRooms();
+          }
+        } catch (error) {
+          console.log('Failed to toggle room availability. Please try again later.');
+        }
+      };
+      useEffect(() => {
+      
+        // Fetching rooms from the API using the current user's ID
+        if(currentUser){
+        fetchRooms();
+        }
+      }
+      , [currentUser])
+     
+          
+  return (
+    <div>
+      <Title align='left' font='outfit' title='Room Listings'
+       subTitle='View, edit or manage all listed rooms. 
+           Keep the information up-to-date to provide the best experience for users.' />
+      <p className='text-gray-500 mt-8'>All Rooms</p>
+      <div className='w-full max-w-3xl text-left border border-gray-300 
+            rounded-lg max-h-80 overflow-y-scroll mt-3'>
+        <table className='w-full'>
+          <thead className='bg-gray-50'>
+            <tr>
+              <th className='py-3 px-4 text-gray-800 font-medium'>Name</th>
+              <th className='py-3 px-4 text-gray-800 font-medium max-sm:hidden'>Facility</th>
+              <th className='py-3 px-4 text-gray-800 font-medium'>Price / night</th>
+              <th className='py-3 px-4 text-gray-800 font-medium text-center'>Actions</th>
+
+            </tr>
+          </thead>
+          <tbody className='text-sm'>
+             {rooms.map((item, index) => (
+              <tr key={index}>
+                <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>
+                    {item.roomType}
+                </td>
+                 <td className='py-3 px-4 text-gray-700 border-t border-gray-300 max-sm:hidden'>
+                    {item.amenities.join(', ')}
+                </td>
+                 <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>
+                    {item.pricePerNight} $
+                </td>
+                 <td className='py-3 px-4 text-red-500 text-sm border-t border-gray-300 text-center'>
+                    <label className='relative inline-flex items-center cursor-pointer text-gray-900 gap-3'>
+                      <input type="checkbox" value="" className="sr-only peer" 
+                      onChange={() => handleToggleAvailability(item._id)}
+                       checked={item.isAvailable}
+                      />
+                      <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600
+                                 transition-colors duration-200"> 
+                      </div>
+                      <span className='dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full
+                            transition-transform duration-200 ease-in-out peer-checked:translate-x-5'></span>
+                    </label>
+                </td>
+              </tr>
+             )
+            )}
+          </tbody>
+          </table>
+          </div>
+    </div>
+  )
+}
+
+export default ListRoom
