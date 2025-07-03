@@ -69,6 +69,7 @@ export const createBooking = async (req,res,next)=>{
 
              const booking = await Booking.create({
                   userId:user._id,
+                  username:user.username,
                   hotelId:hotel._id,
                   hotelName:hotel.name,
                   hotelAddress:hotel.address,

@@ -14,6 +14,10 @@ const bookingSchema = new mongoose.Schema({
         type:String,
         required:true
        },
+       username:{
+        type:String,
+        required:true
+       },
         hotelName:{
               type: String,
               required: true

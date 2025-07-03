@@ -70,8 +70,8 @@ function Dashboard() {
           <tbody className='text-sm'>
            {dashboardData.bookings.map((item, index) => (
              <tr key={index}>
-               <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>{item.user.username}</td>
-              <td className='py-3 px-4 text-gray-700 border-t border-gray-300 max-sm:hidden'>{item.room.roomType}</td>
+               <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>{item.username}</td>
+              <td className='py-3 px-4 text-gray-700 border-t border-gray-300 max-sm:hidden'>{item.roomType}</td>
               <td className='py-3 px-4 text-gray-700 border-t border-gray-300 text-center'>$ {item.totalPrice}</td>
               <td className='py-3 px-4 text-gray-700 border-t border-gray-300 flex'>
                 <button className={`px-3 py-1 rounded-full text-xs mx-auto
