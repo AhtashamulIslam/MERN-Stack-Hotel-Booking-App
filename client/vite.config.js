@@ -7,7 +7,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api': {
-        target: 'https://hotel-booking-backend-dusky.vercel.app',
+        target: 'http://localhost:3000',
         secure: false,
       },
     },
