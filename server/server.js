@@ -15,7 +15,6 @@ connectDB(); // Connect to the database.
 connectCloudinary();
 
 const app = express();  
-app.use(cors())
 //Middleware to use express JSON to convert it as json and Clerk authentication.
 app.use(express.json()); // Parse incoming JSON requests.
 app.use(cookieParser());
