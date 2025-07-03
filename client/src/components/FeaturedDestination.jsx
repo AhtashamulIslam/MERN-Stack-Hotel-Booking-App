@@ -11,7 +11,7 @@ function FeaturedDestination() {
 
     const fetchRooms = async () => {
         try {
-            const res = await fetch('/api/room/get-rooms',{
+            const res = await fetch('https://hotel-booking-backend-dusky.vercel.app/api/room/get-rooms',{
                 method:'GET',
                 headers: {'Content-Type':'application/json'}
             });
