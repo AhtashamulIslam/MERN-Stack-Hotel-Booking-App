@@ -11,7 +11,10 @@ function FeaturedDestination() {
 
     const fetchRooms = async () => {
         try {
-            const res = await fetch('/api/room/get-rooms');
+            const res = await fetch('/api/room/get-rooms',{
+                method:'GET',
+                headers: {'Content-Type':'application/json'}
+            });
             const data = await res.json();
             if (res.ok) {
                 setRooms(data);
